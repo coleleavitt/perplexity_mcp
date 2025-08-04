@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O2 -Iinclude
+CFLAGS = -Wall -Wextra -std=c99 -O2 -Iinclude -D_GNU_SOURCE
 LIBS = -lcurl -lcjson
 
 SRCDIR = src
@@ -9,7 +9,7 @@ OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
 TARGET = perplexity-mcp-server
 
-.PHONY: all clean
+.PHONY: all clean install
 
 all: $(TARGET)
 
@@ -25,5 +25,3 @@ clean:
 
 install: $(TARGET)
 	cp $(TARGET) /usr/local/bin/
-
-.PHONY: install

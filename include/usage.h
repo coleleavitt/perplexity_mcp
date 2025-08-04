@@ -25,7 +25,7 @@ typedef struct {
 // Function declarations
 UsageInfo *parse_usage_from_response(const char *response_json);
 CostInfo *calculate_cost(UsageInfo *usage, const char *model);
-void log_usage_and_cost(const char *model, UsageInfo *usage, CostInfo *cost);
+void log_usage_and_cost(const char *model, const UsageInfo *usage, const CostInfo *cost);
 void free_usage_info(UsageInfo *usage);
 void free_cost_info(CostInfo *cost);
 

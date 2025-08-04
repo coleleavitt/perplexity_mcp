@@ -1,6 +1,4 @@
-#ifndef _GNU_SOURCE
-#define _GNU_SOURCE  // Enable strdup and other GNU extensions
-#endif
+#define GNU_SOURCE
 #include "json_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +10,7 @@
 #define JSONRPC_INTERNAL_ERROR (-32603)
 
 // Parse messages array from JSON
-MessageArray *parse_messages(cJSON *messages_json) {
+MessageArray *parse_messages(const cJSON *messages_json) {
     if (!cJSON_IsArray(messages_json)) {
         return NULL;
     }

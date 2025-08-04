@@ -1,7 +1,7 @@
-#define _GNU_SOURCE  // Enable GNU extensions
+#define GNU_SOURCE
 #include "async_models.h"
 #include "../http_client.h"
-#include "../include/usage.h"  // Add this include
+#include "../include/usage.h"
 #include "../../include/constants.h"
 #include <curl/curl.h>
 #include <cjson/cJSON.h>

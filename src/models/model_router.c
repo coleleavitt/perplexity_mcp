@@ -1,4 +1,4 @@
-#define _GNU_SOURCE  // Enable GNU extensions
+#define GNU_SOURCE
 #include "model_router.h"
 #include "sync_models.h"
 #include "async_models.h"
@@ -13,8 +13,11 @@ int is_complex_research_query(const char *content) {
 
     // Convert to lowercase for analysis
     char *lower_content = strdup(content);
-    for (char *p = lower_content; *p; p++) {
-        *p = tolower(*p);
+    if (!lower_content) return 0;  // Added null check
+
+    // Fixed: Use size_t for string iteration and cast to unsigned char
+    for (size_t i = 0; lower_content[i] != '\0'; i++) {
+        lower_content[i] = (char)tolower((unsigned char)lower_content[i]);
     }
 
     // Simple patterns that indicate basic questions (don't need deep research)
@@ -38,17 +41,17 @@ int is_complex_research_query(const char *content) {
 
     int simple_score = 0;
     int complex_score = 0;
-    int content_length = strlen(content);
+    size_t content_length = strlen(content);  // Fixed: Use size_t for string length
 
-    // Check for simple patterns
-    for (int i = 0; simple_patterns[i]; i++) {
+    // Fixed: Use size_t for array iteration
+    for (size_t i = 0; simple_patterns[i] != NULL; i++) {
         if (strstr(lower_content, simple_patterns[i])) {
             simple_score += 2;
         }
     }
 
-    // Check for complex patterns
-    for (int i = 0; complex_patterns[i]; i++) {
+    // Fixed: Use size_t for array iteration
+    for (size_t i = 0; complex_patterns[i] != NULL; i++) {
         if (strstr(lower_content, complex_patterns[i])) {
             complex_score += 3;
         }

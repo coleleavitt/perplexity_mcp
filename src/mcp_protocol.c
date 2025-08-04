@@ -131,7 +131,7 @@ void handle_tools_list(int id) {
 }
 
 // Handle tools/call request
-void handle_tools_call(int id, const char *tool_name, cJSON *arguments) {
+void handle_tools_call(int id, const char *tool_name, const cJSON *arguments) {
     cJSON *messages_json = cJSON_GetObjectItem(arguments, "messages");
     if (!cJSON_IsArray(messages_json)) {
         send_response(id, NULL, 1, "Missing or invalid 'messages' parameter");

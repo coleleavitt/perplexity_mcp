@@ -25,11 +25,13 @@ set(SOURCES
         src/models/model_router.c
         src/models/sync_models.c
         src/usage.c
-        include/usage.h
 )
 
 # Create executable
 add_executable(perplexity_mcp ${SOURCES})
+
+# Define _GNU_SOURCE to enable GNU extensions
+target_compile_definitions(perplexity_mcp PRIVATE _GNU_SOURCE)
 
 # Link libraries
 target_link_libraries(perplexity_mcp

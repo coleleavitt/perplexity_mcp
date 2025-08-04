@@ -1,4 +1,4 @@
-#define _GNU_SOURCE  // Add this line at the very top
+#define GNU_SOURCE
 #include "../include/usage.h"
 #include <cjson/cJSON.h>
 #include <stdio.h>
@@ -94,7 +94,7 @@ CostInfo *calculate_cost(UsageInfo *usage, const char *model) {
     return cost;
 }
 
-void log_usage_and_cost(const char *model, UsageInfo *usage, CostInfo *cost) {
+void log_usage_and_cost(const char *model, const UsageInfo *usage, const CostInfo *cost) {
     fprintf(stderr, "=== Usage & Cost Report ===\n");
     fprintf(stderr, "Model: %s\n", model);
     fprintf(stderr, "Tokens - Input: %d, Output: %d, Total: %d\n",

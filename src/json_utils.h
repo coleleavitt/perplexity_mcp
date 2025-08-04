@@ -5,7 +5,7 @@
 #include "../include/types.h"
 
 // Message parsing functions
-MessageArray *parse_messages(cJSON *messages_json);
+MessageArray *parse_messages(const cJSON *messages_json);
 void free_message_array(MessageArray *msg_array);
 
 // JSON-RPC response functions

@@ -8,7 +8,7 @@
 static char *perplexity_api_key = NULL;
 
 // HTTP response callback
-size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp) {
+size_t WriteMemoryCallback(const void *contents, size_t size, size_t nmemb, void *userp) {
     size_t realsize = size * nmemb;
     HTTPResponse *response = (HTTPResponse *)userp;
 

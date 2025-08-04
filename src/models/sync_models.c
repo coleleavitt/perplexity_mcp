@@ -1,4 +1,4 @@
-#define _GNU_SOURCE  // Enable GNU extensions
+#define GNU_SOURCE
 #include "sync_models.h"
 #include "../http_client.h"
 #include "../../include/usage.h"  // Add this include

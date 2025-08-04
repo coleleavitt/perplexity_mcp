@@ -1,4 +1,4 @@
-#define _GNU_SOURCE  // Enable strdup and other GNU extensions
+#define GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
