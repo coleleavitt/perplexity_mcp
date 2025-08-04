@@ -1,21 +1,29 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -O2
+CFLAGS = -Wall -Wextra -std=c99 -O2 -Iinclude
 LIBS = -lcurl -lcjson
 
-TARGET = perplexity-mcp-server
-SOURCES = main.c
+SRCDIR = src
+OBJDIR = obj
+SOURCES = $(wildcard $(SRCDIR)/*.c $(SRCDIR)/models/*.c)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-$(TARGET): $(SOURCES)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SOURCES) $(LIBS)
+TARGET = perplexity-mcp-server
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LIBS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(TARGET)
+	rm -rf $(OBJDIR) $(TARGET)
 
-install-deps-ubuntu:
-	sudo apt-get update
-	sudo apt-get install libcurl4-openssl-dev libcjson-dev
+install: $(TARGET)
+	cp $(TARGET) /usr/local/bin/
 
-install-deps-macos:
-	brew install curl cjson
-
-.PHONY: clean install-deps-ubuntu install-deps-macos
+.PHONY: install
