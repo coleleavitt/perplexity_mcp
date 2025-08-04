@@ -1,6 +1,7 @@
 #define _GNU_SOURCE  // Enable GNU extensions
 #include "sync_models.h"
 #include "../http_client.h"
+#include "../../include/usage.h"  // Add this include
 #include "../../include/constants.h"
 #include <curl/curl.h>
 #include <cjson/cJSON.h>
@@ -70,6 +71,18 @@ static char *perform_sync_chat_completion(MessageArray *msg_array, const char *m
                         answer = strdup(content->valuestring);
                     }
                 }
+
+                // NEW: Parse and log usage/cost
+                UsageInfo *usage = parse_usage_from_response(response->memory);
+                if (usage) {
+                    CostInfo *cost = calculate_cost(usage, model);
+                    if (cost) {
+                        log_usage_and_cost(model, usage, cost);
+                        free_cost_info(cost);
+                    }
+                    free_usage_info(usage);
+                }
+
                 cJSON_Delete(json_res);
             }
         } else {

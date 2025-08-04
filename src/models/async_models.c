@@ -1,6 +1,7 @@
 #define _GNU_SOURCE  // Enable GNU extensions
 #include "async_models.h"
 #include "../http_client.h"
+#include "../include/usage.h"  // Add this include
 #include "../../include/constants.h"
 #include <curl/curl.h>
 #include <cjson/cJSON.h>
@@ -136,6 +137,17 @@ static char *get_async_result(const char *request_id) {
                                 if (cJSON_IsString(content)) {
                                     result = strdup(content->valuestring);
                                 }
+                            }
+
+                            // NEW: Parse and log usage/cost for completed async requests
+                            UsageInfo *usage = parse_usage_from_response(response->memory);
+                            if (usage) {
+                                CostInfo *cost = calculate_cost(usage, "sonar-deep-research");
+                                if (cost) {
+                                    log_usage_and_cost("sonar-deep-research", usage, cost);
+                                    free_cost_info(cost);
+                                }
+                                free_usage_info(usage);
                             }
                         }
                     } else if (strcmp(status->valuestring, "FAILED") == 0) {
